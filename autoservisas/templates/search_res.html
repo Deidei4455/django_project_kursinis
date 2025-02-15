@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Paieška</h1>
+<h3><b><i>{{ query_text }}</i></b> rezultatai</h3>
+{% if search_results %}
+<ul>
+    {% for car in search_results %}
+
+    <li>
+        {{ car }} <a href="{% url 'one-car' car.id %}">Žiūrėti</a>
+    </li>
+
+    {% endfor %}
+</ul>
+{% else %}
+<p>Nieko nerasta</p>
+{% endif %}
+{% endblock %}

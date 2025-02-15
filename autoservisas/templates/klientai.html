@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Klientai</h1>
+<ul>
+    {% for klientas in klientas_list %}
+
+    <li>Klientas - <b>{{ klientas.f_name }} {{ klientas.l_name }}</b>,
+        numeris - {{ klientas.numeris }}
+        <a href="{% url 'klientas' klientas.id %}">Žiūrėti</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&raquo;1&laquo;&laquo;&laquo;</a>
+            <a href="?page={{ page_ojb.previous_page_number }}">atgal&laquo;&laquo;</a>
+        {% endif %}
+        <span class="current">
+            {{ page_obj.number }} iš {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">&raquo;&raquo;pirmyn</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;paskutinis&laquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

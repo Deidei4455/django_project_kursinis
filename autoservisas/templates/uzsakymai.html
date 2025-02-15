@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Užsakymai</h1>
+<ul>
+    {% for uzsakymas in uzsakymas_list %}
+
+    <li>Automobilio valst. numeris - <b>{{ uzsakymas.automobilis.autonr }}</b>,
+        užsakymo data - {{ uzsakymas.data }}
+        <p>{% if uzsakymas.due_back %}
+            grąžinimo data - <b class="{% if uzsakymas.is_late %}
+            text-danger
+            {% else %}
+            text-success
+            {% endif %}">{{ uzsakymas.due_back }}</b>
+            {% endif %}
+            būsena -
+            <b style="display: inline;" class="{% if uzsakymas.status == 'i' %} text-success
+        {% elif uzsakymas.status == 'a' %} text-muted
+        {% elif uzsakymas.status == 'v' %} text-primary
+        {% else %} text-danger
+{% endif %}">{{ uzsakymas.get_status_display }}</b>,
+            kaina: {{ uzsakymas.bendra_kaina }}
+            <p>{{ uzsakymas.automobilis.klientas.f_name }} {{ uzsakymas.automobilis.klientas.l_name }}</p>
+            <a href="{% url 'uzsakymas' uzsakymas.id %}">Žiūrėti</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&raquo;1&laquo;&laquo;&laquo;</a>
+            <a href="?page={{ page_ojb.previous_page_number }}">atgal&laquo;&laquo;</a>
+        {% endif %}
+        <span class="current">
+            {{ page_obj.number }} iš {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">&raquo;&raquo;pirmyn</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;paskutinis&laquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

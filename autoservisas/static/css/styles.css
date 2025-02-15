@@ -1,0 +1,26 @@
+body {
+    background-color: #fff25e;
+}
+
+.sidebar-nav {
+    list-style: none;
+    margin-top: 10px;
+}
+table {
+    width: 80%;
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+th {
+    border: 2px solid black;
+}
+
+td {
+    border: 2px solid black;
+}
+
+.login-table {
+    width: auto;
+    border: none;
+}

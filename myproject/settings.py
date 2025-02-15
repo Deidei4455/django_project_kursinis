@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from .secret import SECRET_KEY
+
+from .secret import SECRET_KEY, EMAIL, EMAIL_PASSWORD, HOST
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +29,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'autoservisas',
+    'autoservisas.apps.AutoservisasConfig',
+    'tinymce',
+    'crispy_forms',
+    'crispy_bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -111,7 +115,54 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# media failams
+MEDIA_ROOT = Path(BASE_DIR, 'autoservisas/media')
+MEDIA_URL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = HOST
+EMAIL_PORT = 587
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = EMAIL
+EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
+
+DEFAULT_FROM_EMAIL = EMAIL
+
+# prisijungiant vel, redirect i homepage, ne i profili, kurio nera
+LOGIN_REDIRECT_URL = '/'
+
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 360,
+    'width': 1120,
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'plugins': '''
+ textcolor save link image media preview codesample contextmenu
+ table code lists fullscreen insertdatetime nonbreaking
+ contextmenu directionality searchreplace wordcount visualblocks
+ visualchars code fullscreen autolink lists charmap print hr
+ anchor pagebreak
+ ''',
+    'toolbar1': '''
+ fullscreen preview bold italic underline | fontselect,
+ fontsizeselect | forecolor backcolor | alignleft alignright |
+ aligncenter alignjustify | indent outdent | bullist numlist table |
+ | link image media | codesample |
+ ''',
+    'toolbar2': '''
+ visualblocks visualchars |
+ charmap hr pagebreak nonbreaking anchor | code |
+ ''',
+    'contextmenu': 'formats | link image',
+    'menubar': True,
+    'statusbar': True,
+}
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

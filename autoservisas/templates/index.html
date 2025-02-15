@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Autoservisas</h1>
+{% if user.username %}
+<h4>Sveiki, {{ user.username }}</h4>
+{% else %}
+<h4>Sveiki, vartotojau</h4>
+{% endif %}
+<p>Jūs lankotės {{ num_visits }} kartą</p>
+<h3>Autoserviso statistika:</h3>
+<table>
+    <tr>
+        <th>Pavadinimas</th>
+        <th>Kiekis</th>
+    </tr>
+    <tr> <td>Galimos paslaugos</td> <td>{{ num_paslaugos }}</td> </tr>
+    <tr> <td>Užsakymai</td> <td>{{ num_uzsakymas }}</td> </tr>
+    <tr> <td>Užsakymų eilutės</td> <td>{{ num_paslauga_uzsakymas }}</td> </tr>
+    <tr> <td>Užsakymų automobiliai</td> <td>{{ num_car }}</td> </tr>
+    <tr> <td>Klientai</td> <td>{{ num_klientas }}</td> </tr>
+    <tr> <td>Auto modeliai</td> <td>{{ num_modelis }}</td> </tr>
+    <tr> <td>Auto gamintojai</td> <td>{{ num_gamintojas }}</td> </tr>
+
+</table>
+<hr/>
+<p>Užsakymai su būsenomis: </p>
+<p>
+    <a href="{% url 'order-status' status_s='a' %}">Apdorojama</a>
+    <a href="{% url 'order-status' status_s='p' %}">Priimta</a>
+    <a href="{% url 'order-status' status_s='v' %}">Vykdoma</a>
+    <a href="{% url 'order-status' status_s='i' %}">Įvykdyta</a>
+</p>
+{% endblock %}

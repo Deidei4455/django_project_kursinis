@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Uzsakymai</h1>
+<ul>
+    {% for uzsakymas in uzsakymai %}
+
+    <li>Automobilio valst. numeris - <b>{{ uzsakymas.automobilis.autonr }}</b>,
+        {{ uzsakymas.data }}. būsena -
+        <p style="display: inline;" class="{% if uzsakymas.status == 'i' %} text-success
+        {% elif uzsakymas.status == 'a' %} text-muted
+        {% elif uzsakymas.status == 'v' %} text-primary
+        {% else %} text-danger
+{% endif %}
+">
+            <b>{{ uzsakymas.get_status_display }}</b></p> kaina: {{ uzsakymas.bendra_kaina }}
+        <a href="{% url 'uzsakymas' uzsakymas.id %}">Žiūrėti</a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

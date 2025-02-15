@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Automobilis</h1>
+<h4>{{ one_car }}</h4>
+<hr/>
+<p>Automobilio savininkas: {{ one_car.klientas }}</p>
+{% if one_car.car_img %}
+                <img class="img-fluid" src="{{ one_car.car_img.url }}" style="width: 30%;">
+            {% else %}
+                <img class="img-fluid" src="{% static 'img/no-image.png' %} " style="width: 30%;">
+            {% endif %}
+{% if one_car.aprasymas %}
+{{ one_car.aprasymas | safe }}
+{% endif %}
+{% endblock %}
+
+{% block title %}<title>{{ one_car.modelis.gamintojas.gamintojas }} {{ one_car.modelis }}</title>{% endblock %}

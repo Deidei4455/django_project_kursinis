@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Užsakymas {{ uzsakymas.automobilis.autonr }} </h1>
+<h4>Automobilis: {{ uzsakymas.automobilis }}</h4>
+<p>Užsakymo data - {{ uzsakymas.data }}.
+    {% if uzsakymas.due_back %}
+    <b class="{% if uzsakymas.is_late %}
+            text-danger
+            {% else %}
+            text-success
+            {% endif %}">
+        {% if uzsakymas.is_late %}
+        Grąžinimo data - {{ uzsakymas.due_back }}
+        {% else %}
+        Grąžinimo data - {{ uzsakymas.due_back }}
+        {% endif %}
+    </b>
+    {% endif %}
+    būsena - {{ uzsakymas.get_status_display }}</p>
+<p>Klientas: {{ uzsakymas.automobilis.klientas.f_name }}
+    {{ uzsakymas.automobilis.klientas.l_name }},
+    numeris - {{ uzsakymas.automobilis.klientas.numeris }}</p>
+<hr/>
+<table>
+    <tr>
+        <th>id</th>
+        <th>Paslaugų kiekis</th>
+        <th>Paslauga</th>
+        <th>Aprašymas</th>
+        <th>Kaina</th>
+    </tr>
+    {% for eilute in uzsakymas.paslaugauzsakymas_set.all %}
+    <tr>
+        <td>{{ eilute.id }}</td>
+        <td>{{ eilute.paslaugu_kiekis }}</td>
+        <td>{{ eilute.paslauga.paslauga }}</td>
+        <td>{{ eilute.paslauga.aprasymas }}</td>
+        <td>{{ eilute.kaina }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="4">Bendra kaina</td>
+        <td>{{ uzsakymas.bendra_kaina }}</td>
+    </tr>
+</table>
+{% if user.is_authenticated %}
+<div>
+    <h5>Palikite komentarą apie užsakymą</h5>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.content }}
+        <div>
+            <input type="submit" class="btn btn-outline-success btn-sm" value="Pateikti">
+        </div>
+    </form>
+</div>
+{% endif %}
+<hr/>
+{% for komentaras in uzsakymas.uzsakymasreview_set.all %}
+<small><b>{{ komentaras.reviewer }}</b><em>{{ komentaras.date_created }}</em></small>
+<p class="bg-light">{{ komentaras.content }}</p>
+<hr/>
+{% endfor %}
+{% if not uzsakymas.uzsakymasreview_set.first %}
+<p>Užsakymas komentarų neturi</p>
+<hr/>
+{% endif %}
+{% endblock %}

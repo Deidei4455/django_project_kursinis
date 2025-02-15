@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Naujas užsakymas</legend>
+        {{ form | crispy }}
+        <input type="submit" class="btn btn-outline-info btn-sm" value="Sukurti">
+    </fieldset>
+</form>
+
+{% endblock %}

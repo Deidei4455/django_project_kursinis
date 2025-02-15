@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Klientas {{ one_klientas.f_name }} </h1>
+
+<p>Klientas: {{ one_klientas.f_name }}
+    {{ one_klientas.l_name }},
+    numeris - {{ one_klientas.numeris }}</p>
+<h4>Kliento automobiliai</h4>
+<div class="row">
+    {% for car in client_cars %}
+        <div class="col-sm-6 col-md-3 d-flex align-items-stretch">
+            <div class="card mb-4 shadow">
+            {% if car.car_img %}
+                <img class="card-img-top" src="{{ car.car_img.url }}">
+            {% else %}
+                <img class="card-img-top" src="{% static 'img/no-image.png' %}">
+            {% endif %}
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">{{ car }}</h6>
+                    <p class="card-text"><a href="{% url 'one-car' car.id %}">Žiūrėti</a></p>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ user }} užsakymai</h1>
+
+{% if uzsakymas_list %}
+<ul>
+    {% for uzsakymas in uzsakymas_list %}
+    <li>
+        Automobilio valst. numeris - <b>{{ uzsakymas.automobilis.autonr }}</b>,
+        užsakymo data - {{ uzsakymas.data }}
+        <p>{% if uzsakymas.due_back %}
+            grąžinimo data - <b class="{% if uzsakymas.is_late %}
+            text-danger
+            {% else %}
+            text-success
+            {% endif %}">{{ uzsakymas.due_back }}</b>
+            {% endif %}
+            būsena -
+            <b style="display: inline;" class="{% if uzsakymas.status == 'i' %} text-success
+        {% elif uzsakymas.status == 'a' %} text-muted
+        {% elif uzsakymas.status == 'v' %} text-primary
+        {% else %} text-danger
+{% endif %}">{{ uzsakymas.get_status_display }}</b>,
+            kaina: {{ uzsakymas.bendra_kaina }}
+            <a href="{% url 'uzsakymas' uzsakymas.id %}">Žiūrėti</a></p>
+        <div>
+            <a class="btn-info btn-sm" href="{% url 'user-update-order' uzsakymas.id %}">Redaguoti</a>
+            <a class="btn-warning btn-sm" href="{% url 'user-delete-order' uzsakymas.id %}">Trinti</a>
+        </div>
+    </li>
+
+    {% endfor %}
+</ul>
+{% else %}
+Užsakymų nerasta
+{% endif %}
+{% endblock %}

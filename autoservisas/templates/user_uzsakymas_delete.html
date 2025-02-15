@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <p>Automobilis: {{ uzsakymas.automobilis }}</p>
+    <p>Klientas: {{ uzsakymas.automobilis.klientas }}</p>
+    <p>Užsakymo sukūrimo data: {{ uzsakymas.data }}</p>
+    <p>Grąžinimo data: {{ uzsakymas.due_back }}</p>
+    <p>Statusas: {{ uzsakymas.get_status_display }}</p>
+    <div class="form-group">
+        <button class="btn btn-outline-danger" type="submit">Trinti</button>
+        <a class="btn btn-outline-secondary" href="{% url 'my-orders' %}">Atgal</a>
+    </div>
+</form>
+
+{% endblock %}
